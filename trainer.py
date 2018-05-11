@@ -221,7 +221,7 @@ def run_test(model, testset_dir):
         batch_output = np.array(batch_output).astype(np.float32)
 
         batch_generate = model.sess.run([model.fake_output_sample], feed_dict={model.real_input: batch_input,
-                                                                              model.real_output: batch_output})
+                                                                               model.real_output: batch_output})
 
         # write results
         save_dir = os.path.join(model.test_dir, model.dataset_name)

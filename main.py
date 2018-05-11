@@ -36,7 +36,7 @@ flags.DEFINE_boolean("flip", True, "if flip the images for data argumentation [T
 # training parameters
 flags.DEFINE_integer("epoch", 200, "# of epoch [200]")
 flags.DEFINE_integer("batch_size", 1, "# images in batch [1]")
-flags.DEFINE_integer("train_size", np.inf, "# images used to train [np.inf]")
+flags.DEFINE_float("train_size", np.inf, "# images used to train [np.inf]")
 
 # optimizer
 flags.DEFINE_float("learning_rate", 0.0002, "Learning rate of for adam [0.0002]")

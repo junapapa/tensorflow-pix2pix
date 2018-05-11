@@ -84,7 +84,7 @@ class Pix2Pix(object):
 
         # sampler
         self.fake_output_sample = generator(self.real_input, self.gen_num_filter, self.output_dim,
-                                            reuse=True, training=True)
+                                            reuse=True, training=False)
 
         # summary (tensorboard)
         self.D_real_summary = tf.summary.histogram("D_real", self.D_real)
@@ -114,8 +114,9 @@ class Pix2Pix(object):
         self.g_vars = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='Generator')
 
         # optimizer
-        self.opt_d = optimizer(loss=self.D_loss, var_list=self.d_vars, learning_rate=learning_rate, beta1=beta1)
-        self.opt_g = optimizer(loss=self.G_loss, var_list=self.g_vars, learning_rate=learning_rate, beta1=beta1)
+        with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
+            self.opt_d = optimizer(loss=self.D_loss, var_list=self.d_vars, learning_rate=learning_rate, beta1=beta1)
+            self.opt_g = optimizer(loss=self.G_loss, var_list=self.g_vars, learning_rate=learning_rate, beta1=beta1)
 
         # summary (merge)
         self.G_summary = tf.summary.merge([self.D_fake_summary, self.fake_output_summary,
